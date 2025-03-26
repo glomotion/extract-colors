@@ -1,20 +1,8 @@
-import { extractColorsFromImageData } from 'extract-colors';
 import type { FinalColor } from 'extract-colors/lib/types/Color';
-import type { NodeOptions } from 'extract-colors/lib/types/Options';
-import getPixels from 'get-pixels';
-import { promisify } from 'util';
 
-// Convert getPixels to a Promise-based function
-const getPixelsAsync = promisify(getPixels);
+const DEFAULT_IMAGE_URL = "https://plus.unsplash.com/premium_photo-1742353866584-27c87d42da99?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
-// Helper function to determine if a color is dark or light
-const getShade = (lightness: number): 'dark' | 'light' => {
-  return lightness < 0.5 ? 'dark' : 'light';
-};
-
-async function getColors() {
-  const imageUrl = "https://plus.unsplash.com/premium_photo-1742353866584-27c87d42da99?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-
+async function getColors(imageUrl: string = DEFAULT_IMAGE_URL) {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
     const response = await fetch(`${baseUrl}/api/extract-colors`, {
@@ -46,7 +34,7 @@ export default async function Home() {
       
       <div className="mb-8">
         <img
-          src="https://plus.unsplash.com/premium_photo-1742353866584-27c87d42da99?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src={DEFAULT_IMAGE_URL}
           alt="Source image"
           className="max-w-md rounded shadow"
         />
